@@ -6,11 +6,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class Arm {
 
     // Create necessary variables to control 2 motors
-    private double firstJointPower;
-    private double secondJointPower;
+//    private double firstJointPower;
+//    private double secondJointPower;
 
     DcMotor MTR_FIRST_JOINT;
-    DcMotor MTR_SECOND_JOINT;
+//    DcMotor MTR_SECOND_JOINT;
     LinearOpMode bot;
 
     PIDController pid = new PIDController(1.0, 0.1, 0.01);
@@ -27,16 +27,16 @@ public class Arm {
         MTR_FIRST_JOINT.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //MTR_FIRST_JOINT.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        MTR_SECOND_JOINT = bot.hardwareMap.get(DcMotor.class, "second_joint");
+        //MTR_SECOND_JOINT = bot.hardwareMap.get(DcMotor.class, "second_joint");
         //MTR_SECOND_JOINT.setDirection(DcMotor.Direction.FORWARD);
-        MTR_SECOND_JOINT.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        MTR_SECOND_JOINT.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //MTR_SECOND_JOINT.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //MTR_SECOND_JOINT.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //MTR_SECOND_JOINT.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //ToDo: Reset encoders here for the started "folded" postion.
 
-        firstJointPower = 0.0;
-        secondJointPower = 0.0;
+        //firstJointPower = 0.0;
+        //secondJointPower = 0.0;
 
         // use braking to slow the motor down faster
         MTR_FIRST_JOINT.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -45,7 +45,6 @@ public class Arm {
         // this does NOT disable the encoder from counting,
         // but lets us simply send raw motor power.
         MTR_FIRST_JOINT.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
     }
 
     // Test the PIController code.
@@ -56,8 +55,8 @@ public class Arm {
         // Set current start time.
         this.lastTimePID = 0;
         // Setup a variable for each drive wheel to save power level for telemetry
-        double firstJointPosition;
-        double currentEncoderPosition;
+        int firstJointPosition;
+        int currentEncoderPosition;
 
         // ToDo: Need to mess with this value.
         pid.setSetPoint(100); // For example, setting a degree for motor to move to
@@ -70,11 +69,11 @@ public class Arm {
         // Get the current encoder position
         currentEncoderPosition = MTR_FIRST_JOINT.getCurrentPosition();
 
-        // Use 'output' to adjust your system (e.g., power to a heater)
-        firstJointPosition = pid.calculate(currentEncoderPosition, deltaTime);
+        // Use 'output' to adjust your system.
+        firstJointPosition = (int) Math.round( pid.calculate(currentEncoderPosition, deltaTime) );
 
         // Send calculated power to wheels
-        MTR_FIRST_JOINT.setPower(firstJointPosition);
+        MTR_FIRST_JOINT.setTargetPosition(firstJointPosition);
 
         bot.telemetry.addData("Status", "Run Time: " + bot.getRuntime());
         bot.telemetry.addData("Motors", "First (%.2f)", firstJointPosition);
@@ -112,11 +111,15 @@ public class Arm {
 
     // Move the arm to the pickup position.
     public void moveArmToPickup() {
+        // First joint to be at 0 degree.
+        // Second joint to be at 90 degree.
 
     }
 
     // Move the arm to the deploy position.
     public void moveArmToDeploy() {
+        // First joint to be at 90 degree.
+        // Second joint to be at 90 degree.
 
     }
 }

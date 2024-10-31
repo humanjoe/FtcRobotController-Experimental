@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static java.lang.Math.round;
+
 public class PIDController {
 
     private double kp; // Proportional gain
@@ -39,24 +41,24 @@ public class PIDController {
     public double calculate(double currentPosition, double deltaTime)
     {
         // Calculate error
-        double error = setPoint - currentPosition;
+        double error = setPoint - currentPosition; //90 - 59.95
 
         // Proportional term
-        double proportional = kp * error;
+        double proportional = kp * error; //50 * 1 = 50     60 * 1 = 60
 
         // Integral term
-        integral += error * deltaTime;
-        double integralTerm = ki * integral;
+        integral += error * deltaTime; // 50 * 2 = 100    60 * 2 = 120
+        double integralTerm = ki * integral; //.1 * 100 = 10     .1 * 120 = 12
 
         // Derivative term
-        double derivative = (error - lastError) / deltaTime;
-        double derivativeTerm = kd * derivative;
+        double derivative = (error - lastError) / deltaTime; // ((50 - 40) / 2 ) = 5     60 - 50 / 2 = 5
+        double derivativeTerm = kd * derivative; //.5 * 0.01 = 0.05
 
         // Compute the output
-        double output = proportional + integralTerm + derivativeTerm;
+        double output = proportional + integralTerm + derivativeTerm; //50 + 10 + -0.05 = 59.95  // 60 +12 + .05 71.95
 
         // Store error for next calculation
-        this.lastError = error;
+        this.lastError = error; //50
 
         return output;  // This should be used to set the arm power.
     }
