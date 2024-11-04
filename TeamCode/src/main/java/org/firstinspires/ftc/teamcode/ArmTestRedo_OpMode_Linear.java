@@ -1,4 +1,5 @@
-package org.firstinspires.ftc.teamcode;/* Copyright (c) 2017 FIRST. All rights reserved.
+package org.firstinspires.ftc.teamcode;
+/* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted (subject to the limitations in the disclaimer below) provided that
@@ -27,17 +28,9 @@ package org.firstinspires.ftc.teamcode;/* Copyright (c) 2017 FIRST. All rights r
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//package org.firstinspires.ftc.robotcontroller.external.samples;
-
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.teamcode.Arm;
-import org.firstinspires.ftc.teamcode.PIDController;
 
 /*
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -52,35 +45,51 @@ import org.firstinspires.ftc.teamcode.PIDController;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Linear OpMode", group="Linear OpMode")
-@Disabled
-public class ArmTesterOpMode_Linear extends LinearOpMode {
+@TeleOp(name="ArmTest2: Linear OpMode", group="Linear OpMode")
+public class ArmTestRedo_OpMode_Linear extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor firstJoint = null;
-    private DcMotor secondJoint = null;
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException{
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        Arm arm;
-        arm = new Arm(this);
+        AR_Arm arm;
 
         // Wait for the game to start (driver presses START)
         waitForStart();
         runtime.reset();
 
+        arm = new AR_Arm(this);
+
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Test the PID.
-            arm.TestPID();
+            //===== CHECK FOR INPUTS ===============================================================
+            if (gamepad1.b) {
+                telemetry.addData("Status","Pressing B");
+                // Set Arm UP position
+                arm.setArmDeployPos();
+            }
+            if (gamepad1.x) {
+                telemetry.addData("Status","Pressing X");
+                // Set Arm DOWN position
+                arm.setArmRestPos();
+            }
+            if (gamepad1.y) {
+                telemetry.addData("Status","Pressing Y");
+                // Easy Way.
 
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            }
+
+            //===== RUN HARDWARE UPDATES ===========================================================
+            arm.updatePos();
+
+            // Show the elapsed game time and other data.
+            telemetry.addData("Status","Run Time: " + runtime.toString());
+
             telemetry.update();
         }
     }
