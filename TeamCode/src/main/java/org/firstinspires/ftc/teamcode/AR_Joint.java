@@ -38,7 +38,5 @@ public class AR_Joint
     public void moveJoint(int target) {
 
         this.newPID.loop(target);
-
     }
-
 }

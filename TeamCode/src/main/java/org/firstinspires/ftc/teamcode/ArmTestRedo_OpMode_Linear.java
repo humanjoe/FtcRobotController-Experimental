@@ -45,14 +45,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="ArmTest2: Linear OpMode", group="Linear OpMode")
-public class ArmTestRedo_OpMode_Linear extends LinearOpMode {
-
+@TeleOp(name="ArmTestRedo: Linear OpMode", group="Linear OpMode")
+public class ArmTestRedo_OpMode_Linear extends LinearOpMode
+{
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
-    public void runOpMode() throws InterruptedException{
+    public void runOpMode() throws InterruptedException
+    {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -67,28 +68,33 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode {
         // Run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // ==== CHECK FOR INPUTS FROM GAMEPAD, ETC. ============================================
-            // We should perform all our user input checks here.
+            // ===== CHECK FOR INPUTS FROM GAMEPADS, ETC. ==========================================
+            // We should perform all our user input checks here. Every loop, we should determine if the
+            // user has input anything.
             if (gamepad1.b) {
-                telemetry.addData("Status","Pressing B");
-                // Set Arm UP position
+                telemetry.addData("Status","Pressing B (setArmDeployPos)");
+                // Set Arm into UP position.
                 arm.setArmDeployPos();
             }
             if (gamepad1.x) {
-                telemetry.addData("Status","Pressing X");
-                // Set Arm DOWN position
+                telemetry.addData("Status","Pressing X (setArmRestPos)");
+                // Set Arm into DOWN position.
                 arm.setArmRestPos( );
             }
             if (gamepad1.y) {
-                telemetry.addData("Status","Pressing Y");
-                // Easy Way.
+                telemetry.addData("Status","Pressing Y (setArmGrabPos)");
+                // Set Arm into GRAB position.
+                arm.setArmGrabPos( );
             }
 
-            // ==== RUN ROBOT MECHANICS UPDATES ===========================================================
-            // This section is for code that needs to run every loop, even if there is not any user input.
+            // ===== RUN ROBOT MECHANICAL UPDATES ==================================================
+            // This section is for code that needs to run every loop, even if there is not any user
+            // input. For example, since some of our Arm movement controls are "Push a button and
+            // forget", it is important that the Arm can update (PID Controller, etc.) even when
+            // someone is not pressing a control.
             arm.updatePos();
 
-            // ==== TELEMETRY ======================================================================
+            // ===== TELEMETRY =====================================================================
             // Show the elapsed game time and other data needed.
             telemetry.addData("Status","Run Time: " + runtime.toString());
             telemetry.update();

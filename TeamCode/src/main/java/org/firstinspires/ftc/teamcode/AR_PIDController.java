@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /*--------------------------------------------------------------------------------------------------
- * This class creates a PID COntroller to use with each joint.
+ * This class creates a PID Controller to use with each joint.
  *
  * Instantiate this class for each JOINT in the ARM object.
  *
