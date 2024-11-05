@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -32,19 +30,18 @@ public class AR_PIDController
     private DcMotor motor;
     private String jointName;
 
-    public AR_PIDController(LinearOpMode iBot, DcMotor iMotor, String jointName) {
+    public AR_PIDController(LinearOpMode iBot, DcMotor iMotor, String jointName)
+    {
         this.bot = iBot;
         this.motor = iMotor;
         this.jointName = jointName;
 
         // Create PID Controller
         controller = new PIDController( p, i, d );
-
-        // Set FTC Dashboard Telemetry
-        bot.telemetry = new MultipleTelemetry( bot.telemetry, FtcDashboard.getInstance( ).getTelemetry( ) );
     }
 
-    public void loop(int target ) {
+    public void loop(int target )
+    {
         this.controller.setPID( p, i, d );
 
         // Todo: Get rid of when testing is finished.
@@ -59,8 +56,8 @@ public class AR_PIDController
 
         this.motor.setPower( power );
 
-        this.bot.telemetry.addData("Power: ",this.jointName + ": " + power );
-        this.bot.telemetry.addData("Pos:", arm_pos );
-        this.bot.telemetry.addData("Target:", target );
+        this.bot.telemetry.addData("Power(",this.jointName + "): " + power );
+        this.bot.telemetry.addData("Position(", this.jointName + "): " + arm_pos );
+        this.bot.telemetry.addData("Target(", this.jointName + "): " + target );
     }
 }

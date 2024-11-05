@@ -63,6 +63,7 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
         waitForStart();
         runtime.reset();
 
+        // Instantiate Arm class
         arm = new AR_Arm(this);
 
         // Run until the end of the match (driver presses STOP)
@@ -72,17 +73,17 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
             // We should perform all our user input checks here. Every loop, we should determine if the
             // user has input anything.
             if (gamepad1.b) {
-                telemetry.addData("Status","Pressing B (setArmDeployPos)");
+                telemetry.addData("Status","GP1:B (setArmDeployPos)");
                 // Set Arm into UP position.
                 arm.setArmDeployPos();
             }
             if (gamepad1.x) {
-                telemetry.addData("Status","Pressing X (setArmRestPos)");
+                telemetry.addData("Status","GP1:X (setArmRestPos)");
                 // Set Arm into DOWN position.
                 arm.setArmRestPos( );
             }
             if (gamepad1.y) {
-                telemetry.addData("Status","Pressing Y (setArmGrabPos)");
+                telemetry.addData("Status","GP1:Y (setArmGrabPos)");
                 // Set Arm into GRAB position.
                 arm.setArmGrabPos( );
             }

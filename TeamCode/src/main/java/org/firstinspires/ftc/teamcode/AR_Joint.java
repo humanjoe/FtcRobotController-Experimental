@@ -23,7 +23,8 @@ public class AR_Joint
     // PID Controller for Joint
     private AR_PIDController newPID;
 
-    public AR_Joint(LinearOpMode iBot, String jointName) {
+    public AR_Joint(LinearOpMode iBot, String jointName)
+    {
         this.bot = iBot;
         //this.motorName = jointName;
 
@@ -35,8 +36,8 @@ public class AR_Joint
     }
 
     // Move joint to the desired target.
-    public void moveJoint(int target) {
-
+    public void moveJoint(int target)
+    {
         this.newPID.loop(target);
     }
 }
