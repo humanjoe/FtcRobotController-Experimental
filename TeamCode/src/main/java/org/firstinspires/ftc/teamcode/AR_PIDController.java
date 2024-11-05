@@ -23,8 +23,10 @@ public class AR_PIDController
     public static double p = 0.003, i = 0, d = 0;
     public static double f = 0.05;
 
-    // This variable need to be customized for the motor being used.
+    // This variable need to be customized for the motor being used. PPR (Pulses Per Revolution) is
+    // available from the motor manufacturer.
     private final double ticksPerDegree = 537.7 / 360;  // For GoBilda 312 RPM Motor
+//    private final double ticksPerDegree = 5281.1 / 360;  // For GoBilda 30 RPM Motor
 
     LinearOpMode bot;
     private DcMotor motor;
@@ -44,20 +46,15 @@ public class AR_PIDController
     {
         this.controller.setPID( p, i, d );
 
-        // Todo: Get rid of when testing is finished.
-        if( target > 0 ) {
-            this.bot.telemetry.addData("Status", "Stopping Loop" );
-        }
-
-        int arm_pos = this.motor.getCurrentPosition( );
-        double pid = this.controller.calculate( arm_pos, target );
+        int armPos = this.motor.getCurrentPosition( );
+        double pid = this.controller.calculate( armPos, target );
         double ff = Math.cos( Math.toRadians( target / ticksPerDegree ) ) * f;
         double power = pid + ff;
 
         this.motor.setPower( power );
 
-        this.bot.telemetry.addData("Power(",this.jointName + "): " + power );
-        this.bot.telemetry.addData("Position(", this.jointName + "): " + arm_pos );
-        this.bot.telemetry.addData("Target(", this.jointName + "): " + target );
+        this.bot.telemetry.addData("Power"," (" + this.jointName + ") " + power );
+        this.bot.telemetry.addData("Position", " (" + this.jointName + ") " + armPos );
+        this.bot.telemetry.addData("Target", " (" + this.jointName + ") " + target );
     }
 }
