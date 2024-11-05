@@ -64,10 +64,11 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode {
 
         arm = new AR_Arm(this);
 
-        // run until the end of the match (driver presses STOP)
+        // Run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            //===== CHECK FOR INPUTS ===============================================================
+            // ==== CHECK FOR INPUTS FROM GAMEPAD, ETC. ============================================
+            // We should perform all our user input checks here.
             if (gamepad1.b) {
                 telemetry.addData("Status","Pressing B");
                 // Set Arm UP position
@@ -76,20 +77,20 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode {
             if (gamepad1.x) {
                 telemetry.addData("Status","Pressing X");
                 // Set Arm DOWN position
-                arm.setArmRestPos();
+                arm.setArmRestPos( );
             }
             if (gamepad1.y) {
                 telemetry.addData("Status","Pressing Y");
                 // Easy Way.
-
             }
 
-            //===== RUN HARDWARE UPDATES ===========================================================
+            // ==== RUN ROBOT MECHANICS UPDATES ===========================================================
+            // This section is for code that needs to run every loop, even if there is not any user input.
             arm.updatePos();
 
-            // Show the elapsed game time and other data.
+            // ==== TELEMETRY ======================================================================
+            // Show the elapsed game time and other data needed.
             telemetry.addData("Status","Run Time: " + runtime.toString());
-
             telemetry.update();
         }
     }
