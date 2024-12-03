@@ -28,7 +28,7 @@ public class AR_Joint
 
         // Attach variable to motor hardware and set up.
         this.jointMotor = bot.hardwareMap.dcMotor.get( jointName );
-        this.jointMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //this.jointMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Not needed but left here for future additions if needed.
 
         // Instantiate new PID Controller for this joint.
         this.newPID = new AR_PIDController(this.bot, jointMotor, jointName);
