@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 enum Mode {
     OFF, RED, ORANGE, YELLOW, SAGE, GREEN, AZURE, BLUE, INDIGO, VIOLET, WHITE,
     CUSTOM,
-    POLICE,
+    FLASH,
     RAINBOW,
     STROBE
 }
@@ -54,8 +54,8 @@ public class AR_Light
     private double flashState = 0;
 
     // Variables used to control the strobe light.
-    private double strobeColor1;
-    private double strobeColor2;
+    private double color1;
+    private double color2;
     private int strobeDuration;
     private int strobeFlashDuration;
 
@@ -124,16 +124,16 @@ public class AR_Light
             case WHITE:
                 SRV_GOBILDA_LIGHT.setPosition(GB_CLR_WHITE);
                 break;
-            case POLICE:
+            case FLASH:
                 if( lastTime <= (System.currentTimeMillis() - FLASH_RATE) )
                 {
                    // Change State
-                   if (flashState == GB_CLR_BLUE) {
-                       SRV_GOBILDA_LIGHT.setPosition(GB_CLR_RED);
-                       flashState = GB_CLR_RED;
+                   if (flashState == color1) {
+                       SRV_GOBILDA_LIGHT.setPosition(color2);
+                       flashState = color2;
                    } else {
-                       SRV_GOBILDA_LIGHT.setPosition(GB_CLR_BLUE);
-                       flashState = GB_CLR_BLUE;
+                       SRV_GOBILDA_LIGHT.setPosition(color1);
+                       flashState = color1;
                    }
 
                    lastTime = System.currentTimeMillis();
@@ -175,10 +175,10 @@ public class AR_Light
                 if( lastTime <= ( System.currentTimeMillis( ) - strobeDuration ) )
                 {
                     lastTime = System.currentTimeMillis( );
-                    SRV_GOBILDA_LIGHT.setPosition( strobeColor1 );
+                    SRV_GOBILDA_LIGHT.setPosition( color1 );
                     if ( lastTime <= ( System.currentTimeMillis( ) - strobeFlashDuration ) )
                     {
-                        SRV_GOBILDA_LIGHT.setPosition( strobeColor2 );
+                        SRV_GOBILDA_LIGHT.setPosition( color2 );
                     }
                 }
                 break;
@@ -196,10 +196,10 @@ public class AR_Light
      * Return immediately and sets the light's color to CUSTOM for use in update phase. The color
      * passed into the value variable will be the color used.
      *
-     * @param value The value of the custom color Double between 0 and 1.
+     * @param iColor The value of the custom color. A double between 0 and 1.
      */
-    public void customLight(double value) {
-        customColor = value;
+    public void customLight(double iColor) {
+        customColor = iColor;
         this.currentMode = Mode.CUSTOM;
     }
     /**
@@ -265,10 +265,24 @@ public class AR_Light
     }
     /**
      * Return immediately after setting the light to perform a POLICE flash during updates. Colors will alternate between RED and BLUE.
+     *
+     * @param iColor1 flashing color 1
+     * @param iColor2 flashing color 2
+     */
+    public void flashLights(double iColor1, double iColor2)
+    {
+        this.currentMode = Mode.FLASH;
+        color1 = iColor2;
+        color2 = iColor2;
+    }   
+   /**
+     * Return immediately after setting the light to perform a POLICE flash during updates. Colors will alternate between RED and BLUE.
      */
     public void policeLights()
     {
-        this.currentMode = Mode.POLICE;
+        this.currentMode = Mode.FLASH;
+        color1 = GB_CLR_RED;
+        color2 = GB_CLR_BLUE;
     }
 
     /**
@@ -283,18 +297,18 @@ public class AR_Light
      * Returns immediately after setting the variables for the Strobe Effect.
      * For, example, giving it the parameters of RED, OFF, 250, 1000 would make the light flash RED for a quarter of a second, then be OFF for the remainder of the 1000 ms (750ms).
      *
-     * @param primaryColor This color is the "flash" of the strobe. Takes a double between 0 and 1 or one of the predefined colors like GB_CLR_RED, etc.
-     * @param secondaryColor This color id used when the "flash" isn't happening. This can be any color, including "off".  Takes a double between 0 and 1 or one of the predefined colors like GB_CLR_RED, etc.
-     * @param duration The frequency of the "flashes". Milliseconds
-     * @param flashDuration How long the "flash" lasts. Milliseconds
+     * @param iPrimaryColor This color is the "flash" of the strobe. Takes a double between 0 and 1 or one of the predefined colors like GB_CLR_RED, etc.
+     * @param iSecondaryColor This color id used when the "flash" isn't happening. This can be any color, including "off".  Takes a double between 0 and 1 or one of the predefined colors like GB_CLR_RED, etc.
+     * @param iDuration The frequency of the "flashes". Milliseconds
+     * @param iFlashDuration How long the "flash" lasts. Milliseconds
      */
-    public void strobeLights(double primaryColor, double secondaryColor, int duration, int flashDuration)
+    public void strobeLights(double iPrimaryColor, double iSecondaryColor, int iDuration, int iFlashDuration)
     {
         this.currentMode = Mode.STROBE;
 
-        strobeColor1 = primaryColor;
-        strobeColor2 = secondaryColor;
-        strobeDuration = duration;
-        strobeFlashDuration = flashDuration;
+        color1 = iPrimaryColor;
+        color2 = iSecondaryColor;
+        strobeDuration = iDuration;
+        strobeFlashDuration = iFlashDuration;
     }
 }
