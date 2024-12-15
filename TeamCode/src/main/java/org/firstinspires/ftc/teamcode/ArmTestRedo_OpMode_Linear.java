@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Creation Date: 11/3/2024
  ---------------------------------------------------------------------------------------------------
 */
-@TeleOp(name="ArmTestRedo: Linear OpMode", group="Linear OpMode")
+@TeleOp(name="ArmTestRedo with Lights: Linear OpMode", group="Linear OpMode")
 public class ArmTestRedo_OpMode_Linear extends LinearOpMode
 {
     // Declare OpMode members.
@@ -43,26 +43,30 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
             // We should perform all our user input checks here. Every loop, we should determine if the
             // user has input anything.
             if (gamepad1.a) {
-                telemetry.addData("Status","GP1:A (light Police)");
+                telemetry.addData("Status","GP1:A (Light: Police)");
                 light.policeLights();
             }
             if (gamepad1.b) {
                 telemetry.addData("Status","GP1:B (setArmDeployPos)");
                 // Set Arm into Deploy position.
                 arm.setArmDeployPos();
-                light.setColor(AR_Light.GB_CLR_ORANGE);
+                light.customLight(AR_Light.GB_CLR_ORANGE);
             }
             if (gamepad1.x) {
                 telemetry.addData("Status","GP1:X (setArmRestPos)");
                 // Set Arm into Rest position.
                 arm.setArmRestPos( );
-                light.setColor(AR_Light.GB_CLR_SAGE);
+                light.customLight(AR_Light.GB_CLR_SAGE);
             }
             if (gamepad1.y) {
                 telemetry.addData("Status","GP1:Y (setArmGrabPos)");
                 // Set Arm into GRAB position.
                 arm.setArmGrabPos( );
-                light.setColor(AR_Light.GB_CLR_AZURE);
+                light.customLight(AR_Light.GB_CLR_AZURE);
+            }
+            if (gamepad1.dpad_down) {
+                telemetry.addData("Status","GP1:DPD (Light: Strobe)");
+                light.strobeLights(AR_Light.GB_CLR_GREEN, AR_Light.GB_CLR_OFF, 1000, 250);
             }
 
             // ===== RUN ROBOT MECHANICAL UPDATES ==================================================
