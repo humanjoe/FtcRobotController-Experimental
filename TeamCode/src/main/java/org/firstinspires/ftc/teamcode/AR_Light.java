@@ -17,10 +17,10 @@ enum Mode {
 public class AR_Light
 {
     // Handle for GoBilda Light
-    Servo SRV_GOBILDA_LIGHT;
+    private Servo SRV_GOBILDA_LIGHT;
 
     // Handle for LinearOpMode
-    LinearOpMode bot;
+    private LinearOpMode bot;
 
     // Preset Colors for GoBilda RGB Indicator Light
     public static final double GB_CLR_OFF = 0.0;
@@ -39,25 +39,25 @@ public class AR_Light
     public static final double FLASH_RATE = 500;
 
     // The lights current mode
-    public Mode currentMode = Mode.OFF;
+    private Mode currentMode = Mode.OFF;
 
     // Saves value of custom color
-    public double customColor = 0;
+    private double customColor = 0;
 
     // Name used to identify the light in the Hardware Map
-    String lightName;
+    private String lightName;
 
     // Keeps track of time for flash color changes.
-    long lastTime = 0;
+    private long lastTime = 0;
 
     // Remembers current color of light while in flash mode.
-    double flashState = 0;
+    private double flashState = 0;
 
     // Variables used to control the strobe light.
-    double strobeColor1;
-    double strobeColor2;
-    int strobeDuration;
-    int strobeFlashDuration;
+    private double strobeColor1;
+    private double strobeColor2;
+    private int strobeDuration;
+    private int strobeFlashDuration;
 
     // Instantiation of the class
 
