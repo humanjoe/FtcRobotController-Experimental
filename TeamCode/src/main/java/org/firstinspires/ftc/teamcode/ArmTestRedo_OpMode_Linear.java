@@ -25,6 +25,8 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
 
         AR_Arm arm;
 
+        AR_Light light;
+
         // Wait for the game to start (driver presses START)
         waitForStart();
         runtime.reset();
@@ -32,26 +34,35 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
         // Instantiate Arm class
         arm = new AR_Arm(this);
 
+        light = new AR_Light("status_light", this );
+
         // Run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
             // ===== CHECK FOR INPUTS FROM GAMEPADS, ETC. ==========================================
             // We should perform all our user input checks here. Every loop, we should determine if the
             // user has input anything.
+            if (gamepad1.a) {
+                telemetry.addData("Status","GP1:A (light Police)");
+                light.policeLights();
+            }
             if (gamepad1.b) {
                 telemetry.addData("Status","GP1:B (setArmDeployPos)");
                 // Set Arm into Deploy position.
                 arm.setArmDeployPos();
+                light.setColor(AR_Light.GB_CLR_ORANGE);
             }
             if (gamepad1.x) {
                 telemetry.addData("Status","GP1:X (setArmRestPos)");
                 // Set Arm into Rest position.
                 arm.setArmRestPos( );
+                light.setColor(AR_Light.GB_CLR_SAGE);
             }
             if (gamepad1.y) {
                 telemetry.addData("Status","GP1:Y (setArmGrabPos)");
                 // Set Arm into GRAB position.
                 arm.setArmGrabPos( );
+                light.setColor(AR_Light.GB_CLR_AZURE);
             }
 
             // ===== RUN ROBOT MECHANICAL UPDATES ==================================================
@@ -60,6 +71,7 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
             // forget", it is important that the Arm can update (PID Controller, etc.) even when
             // someone is not pressing a control.
             arm.updatePos();
+            light.updateLight();
 
             // ===== TELEMETRY =====================================================================
             // Show the elapsed game time and other data needed.
