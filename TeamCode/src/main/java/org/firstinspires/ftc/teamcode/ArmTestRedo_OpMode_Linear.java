@@ -24,17 +24,16 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
         telemetry.update();
 
         AR_Arm arm;
-
         AR_Light light;
+
+        // Instantiate Arm & Light class
+        arm = new AR_Arm(this);
+        light = new AR_Light("status_light", this );
 
         // Wait for the game to start (driver presses START)
         waitForStart();
+        if (isStopRequested()) return;
         runtime.reset();
-
-        // Instantiate Arm class
-        arm = new AR_Arm(this);
-
-        light = new AR_Light("status_light", this );
 
         // Run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
