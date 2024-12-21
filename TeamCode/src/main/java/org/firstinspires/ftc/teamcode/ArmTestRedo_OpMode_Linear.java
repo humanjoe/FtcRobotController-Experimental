@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*--------------------------------------------------------------------------------------------------
@@ -17,18 +18,24 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
+    DigitalChannel digitalTouch;  // Digital channel Object
+
     @Override
     public void runOpMode() throws InterruptedException
     {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        AR_Arm arm;
+        //AR_Arm arm;
         AR_Light light;
 
         // Instantiate Arm & Light class
-        arm = new AR_Arm(this);
+        //arm = new AR_Arm(this);
         light = new AR_Light("status_light", this );
+
+        // get a reference to our touchSensor object.
+        digitalTouch = hardwareMap.get(DigitalChannel.class, "digitalTouch");
+        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
 
         // Wait for the game to start (driver presses START)
         waitForStart();
@@ -41,31 +48,49 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
             // ===== CHECK FOR INPUTS FROM GAMEPADS, ETC. ==========================================
             // We should perform all our user input checks here. Every loop, we should determine if the
             // user has input anything.
-            if (gamepad1.a) {
+            if (gamepad1.triangle) {
                 telemetry.addData("Status","GP1:A (Light: Police)");
                 light.policeLights();
             }
-            if (gamepad1.b) {
+            if (gamepad1.square) {
                 telemetry.addData("Status","GP1:B (setArmDeployPos)");
                 // Set Arm into Deploy position.
-                arm.setArmDeployPos();
+          //      arm.setArmDeployPos();
                 light.customLight(AR_Light.GB_CLR_ORANGE);
             }
-            if (gamepad1.x) {
+            if (gamepad1.circle) {
                 telemetry.addData("Status","GP1:X (setArmRestPos)");
                 // Set Arm into Rest position.
-                arm.setArmRestPos( );
+          //      arm.setArmRestPos( );
                 light.customLight(AR_Light.GB_CLR_SAGE);
             }
-            if (gamepad1.y) {
+            if (gamepad1.cross) {
                 telemetry.addData("Status","GP1:Y (setArmGrabPos)");
                 // Set Arm into GRAB position.
-                arm.setArmGrabPos( );
+          //      arm.setArmGrabPos( );
                 light.customLight(AR_Light.GB_CLR_AZURE);
             }
             if (gamepad1.dpad_down) {
                 telemetry.addData("Status","GP1:DPD (Light: Strobe)");
-                light.strobeLights(AR_Light.GB_CLR_GREEN, AR_Light.GB_CLR_OFF, 1000, 250);
+                light.strobeLights(AR_Light.GB_CLR_RED, AR_Light.GB_CLR_OFF, 1000, 100);
+            }
+            if (gamepad1.dpad_up) {
+                telemetry.addData("Status","GP1:DPU (Light: Rainbow)");
+                light.rainbowLights();
+            }
+            if (gamepad1.dpad_left) {
+                telemetry.addData("Status","GP1:DPL (Light: Wave)");
+                light.waveLights();
+            }
+            if (gamepad1.dpad_right) {
+                telemetry.addData("Status","GP1:DPR (Light: Red (Custom))");
+                light.customLight(AR_Light.GB_CLR_RED);
+            }
+
+            if (!digitalTouch.getState()) {
+                telemetry.addData("Button", "NOT PRESSED");
+            } else {
+                telemetry.addData("Button", "PRESSED");
             }
 
             // ===== RUN ROBOT MECHANICAL UPDATES ==================================================
@@ -73,7 +98,7 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
             // input. For example, since some of our Arm movement controls are "Push a button and
             // forget", it is important that the Arm can update (PID Controller, etc.) even when
             // someone is not pressing a control.
-            arm.updatePos();
+        //    arm.updatePos();
             light.updateLight();
 
             // ===== TELEMETRY =====================================================================
