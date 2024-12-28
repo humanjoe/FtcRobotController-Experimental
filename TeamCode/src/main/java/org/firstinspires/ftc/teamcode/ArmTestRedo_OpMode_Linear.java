@@ -26,11 +26,11 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        //AR_Arm arm;
+        AR_Arm arm;
         AR_Light light;
 
         // Instantiate Arm & Light class
-        //arm = new AR_Arm(this);
+        arm = new AR_Arm(this);
         light = new AR_Light("status_light", this );
 
         // get a reference to our touchSensor object.
@@ -53,15 +53,16 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
                 light.policeLights();
             }
             if (gamepad1.square) {
-                telemetry.addData("Status","GP1:B (setArmDeployPos)");
+                telemetry.addData("Status","GP1:B (setArmDeployPos) Light: Orange");
                 // Set Arm into Deploy position.
-          //      arm.setArmDeployPos();
+                arm.setArmDeployPos();
                 light.customLight(AR_Light.GB_CLR_ORANGE);
             }
             if (gamepad1.circle) {
                 telemetry.addData("Status","GP1:X (setArmRestPos)");
+
                 // Set Arm into Rest position.
-          //      arm.setArmRestPos( );
+                arm.setArmRestPos( );
                 light.customLight(AR_Light.GB_CLR_SAGE);
             }
             if (gamepad1.cross) {
@@ -98,7 +99,7 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
             // input. For example, since some of our Arm movement controls are "Push a button and
             // forget", it is important that the Arm can update (PID Controller, etc.) even when
             // someone is not pressing a control.
-        //    arm.updatePos();
+            arm.updatePos();
             light.updateLight();
 
             // ===== TELEMETRY =====================================================================
