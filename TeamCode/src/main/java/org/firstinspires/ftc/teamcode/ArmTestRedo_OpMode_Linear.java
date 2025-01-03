@@ -99,7 +99,7 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
             // input. For example, since some of our Arm movement controls are "Push a button and
             // forget", it is important that the Arm can update (PID Controller, etc.) even when
             // someone is not pressing a control.
-            arm.updatePos();
+            arm.updateArmPos();
             light.updateLight();
 
             // ===== TELEMETRY =====================================================================
