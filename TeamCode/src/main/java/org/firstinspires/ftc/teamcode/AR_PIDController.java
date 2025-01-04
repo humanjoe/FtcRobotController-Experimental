@@ -80,7 +80,7 @@ public class AR_PIDController
 
         double power = pid + ff;  //pid is based off of ticks,  ff is based off of ticks
 
-        this.motor.setPower( power );
+        this.motor.setPower( power );  // ToDo: Something to try, maybe multiple "power" by a factor (0.8 for example) to artificially slow the motor down a small bit.
 
         //this.bot.telemetry.addData("Power"," (" + this.jointName + ") " + power ); // Degrees
         //this.bot.telemetry.addData("Position", " (" + this.jointName + ") " + armPos / ticksPerDegree ); // Degrees
