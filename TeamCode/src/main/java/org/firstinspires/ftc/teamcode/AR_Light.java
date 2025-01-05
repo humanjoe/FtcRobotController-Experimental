@@ -8,7 +8,8 @@ enum Mode {
     CUSTOM,
     FLASH,
     RAINBOW,
-    STROBE
+    STROBE,
+    WAVE
 }
 
 /**
@@ -24,7 +25,7 @@ public class AR_Light
 
     // Preset Colors for GoBilda RGB Indicator Light
     public static final double GB_CLR_OFF = 0.0;
-    public static final double GB_CLR_RED = 0.277;
+    public static final double GB_CLR_RED = 0.279;
     public static final double GB_CLR_ORANGE = 0.333;
     public static final double GB_CLR_YELLOW = 0.388;
     public static final double GB_CLR_SAGE = 0.444;
@@ -36,7 +37,7 @@ public class AR_Light
     public static final double GB_CLR_WHITE = 1.0;
 
     // How quickly the light changes color, in milliseconds
-    public static final double FLASH_RATE = 500;
+    public static final double FLASH_RATE = 400;
 
     // The lights current mode
     private Mode currentMode = Mode.OFF;
@@ -58,6 +59,8 @@ public class AR_Light
     private double color2;
     private int strobeDuration;
     private int strobeFlashDuration;
+    private boolean strobeOn;
+    private double waveColor;
 
     // Instantiation of the class
 
@@ -72,6 +75,8 @@ public class AR_Light
         // Take the passed in value of telemetry and assign to class variables.
         bot = iBot;
         lightName = iLightName;
+        strobeOn = false;
+        waveColor = GB_CLR_RED;
 
         SRV_GOBILDA_LIGHT = bot.hardwareMap.servo.get( lightName );
 
@@ -172,14 +177,29 @@ public class AR_Light
                 break;
 
             case STROBE:
-                if( lastTime <= ( System.currentTimeMillis( ) - strobeDuration ) )
-                {
-                    lastTime = System.currentTimeMillis( );
-                    SRV_GOBILDA_LIGHT.setPosition( color1 );
-                    if ( lastTime <= ( System.currentTimeMillis( ) - strobeFlashDuration ) )
+                if( strobeOn ) {
+                    if (lastTime <= (System.currentTimeMillis() - strobeFlashDuration))
                     {
-                        SRV_GOBILDA_LIGHT.setPosition( color2 );
+                        lastTime = System.currentTimeMillis();  // Get time of change
+                        SRV_GOBILDA_LIGHT.setPosition(color2);  // Change to new color
+                        strobeOn = false;                       // change state
                     }
+                } else {
+                    if (lastTime <= (System.currentTimeMillis() - (strobeDuration - strobeFlashDuration) ) )
+                    {
+                        lastTime = System.currentTimeMillis();  // Get time of change
+                        SRV_GOBILDA_LIGHT.setPosition(color1);  // Change to new color
+                        strobeOn = true;                        // change state
+                    }
+                }
+                break;
+
+            case WAVE:  // ToDo: Not working right.
+                if( lastTime <= (System.currentTimeMillis() - 400) ) {
+                    SRV_GOBILDA_LIGHT.setPosition( waveColor );
+                    waveColor += 10;
+
+                    lastTime = System.currentTimeMillis();
                 }
                 break;
         }
@@ -310,5 +330,19 @@ public class AR_Light
         color2 = iSecondaryColor;
         strobeDuration = iDuration;
         strobeFlashDuration = iFlashDuration;
+        strobeOn = true;
+
     }
+
+    /**
+     * Returns immediately after setting the variables for the Strobe Effect.
+     * For, example, giving it the parameters of RED, OFF, 250, 1000 would make the light flash RED for a quarter of a second, then be OFF for the remainder of the 1000 ms (750ms).
+     */
+    public void waveLights()
+    {
+        this.currentMode = Mode.WAVE;
+
+        waveColor = GB_CLR_RED;
+    }
+
 }
