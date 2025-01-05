@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Log;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -56,5 +58,7 @@ public class AR_PIDController
         this.bot.telemetry.addData("Power"," (" + this.jointName + ") " + power ); // Degrees
         this.bot.telemetry.addData("Position", " (" + this.jointName + ") " + armPos / ticksPerDegree ); // Degrees
         this.bot.telemetry.addData("Target", " (" + this.jointName + ") " + target );
+
+        Log.i("AR_Experimental", "Power: " + power + ", Position: " + armPos + ", Target: " + target );
     }
 }

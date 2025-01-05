@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -17,6 +19,8 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
+    public static final String TAG = "AR_Experimental";
+
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -29,6 +33,7 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
         // Instantiate Arm & Light class
         arm = new AR_Arm(this);
         light = new AR_Light("status_light", this );
+
 
         // Wait for the game to start (driver presses START)
         waitForStart();
