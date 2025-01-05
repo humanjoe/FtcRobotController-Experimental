@@ -33,10 +33,6 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
         AR_Arm arm;
         AR_Light light;
 
-        // Instantiate Arm & Light class
-        arm = new AR_Arm(this);
-        light = new AR_Light("status_light", this );
-
         // get a reference to our touchSensor object.
         digitalTouch = hardwareMap.get(DigitalChannel.class, "digitalTouch");
         digitalTouch.setMode(DigitalChannel.Mode.INPUT);
@@ -45,6 +41,10 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
         waitForStart();
         if (isStopRequested()) return;
         runtime.reset();
+
+        // Instantiate Arm & Light class
+        arm = new AR_Arm(this);
+        light = new AR_Light("status_light", this );
 
         // Run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -58,6 +58,7 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
             }
             if (gamepad1.square) {
                 telemetry.addData("Status","GP1:B (setArmDeployPos) Light: Orange");
+
                 // Set Arm into Deploy position.
                 arm.setArmDeployPos();
                 light.customLight(AR_Light.GB_CLR_ORANGE);
@@ -71,8 +72,9 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
             }
             if (gamepad1.cross) {
                 telemetry.addData("Status","GP1:Y (setArmGrabPos)");
+
                 // Set Arm into GRAB position.
-          //      arm.setArmGrabPos( );
+                arm.setArmGrabPos( );
                 light.customLight(AR_Light.GB_CLR_AZURE);
             }
             if (gamepad1.dpad_down) {

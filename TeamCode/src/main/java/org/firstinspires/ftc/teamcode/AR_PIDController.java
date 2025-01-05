@@ -33,6 +33,8 @@ public class AR_PIDController
     private DcMotor motor;
     private String jointName;
 
+    private int loopCount;  // Used for debugging to count the number of PID loops.
+
     /**
      * Constructor. Perform the setup of the PID Controller.
      * // ToDo: We are passing in the PID values here but I still think there needs to be some customizations for our particular usage with double joints, built off of each other.
@@ -58,6 +60,8 @@ public class AR_PIDController
 
         // Create PID Controller
         controller = new PIDController( p, i, d );
+
+        loopCount = 0; // Set to 0 when initialized
     }
 
     /**
@@ -84,14 +88,14 @@ public class AR_PIDController
 
         this.motor.setPower( power );  // ToDo: Something to try, maybe multiple "power" by a factor (0.8 for example) to artificially slow the motor down a small bit.
 
-        //this.bot.telemetry.addData("Power"," (" + this.jointName + ") " + power ); // Degrees
-        //this.bot.telemetry.addData("Position", " (" + this.jointName + ") " + armPos / ticksPerDegree ); // Degrees
-        //this.bot.telemetry.addData("Target", " (" + this.jointName + ") " + target );
-
         this.bot.telemetry.addData("Power"," (" + this.jointName + ") " + power ); // Degrees
         this.bot.telemetry.addData("Position", " (" + this.jointName + ") " + armPos / ticksPerDegree ); // Degrees
         this.bot.telemetry.addData("Target", " (" + this.jointName + ") " + target );
 
-        Log.i("AR_Experimental", "Power: " + power + ", Position: " + armPos + ", Target: " + target );
+        if( target != 0 ) {
+            Log.i("AR_Experimental", this.jointName + ": Loop: " + loopCount + ", Power: " + power + ", Position(Ticks): " + armPos + ", Position(Degrees): " + armPos / ticksPerDegree + ", Target: " + target + ", PID: " + pid + ", ff: " + ff );
+        }
+
+        loopCount = loopCount + 1;
     }
 }
