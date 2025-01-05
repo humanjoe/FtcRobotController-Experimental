@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -19,6 +21,8 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
     private ElapsedTime runtime = new ElapsedTime();
 
     DigitalChannel digitalTouch;  // Digital channel Object
+
+    public static final String TAG = "AR_Experimental";
 
     @Override
     public void runOpMode() throws InterruptedException
