@@ -73,27 +73,24 @@ public class AR_PIDController
     {
         this.controller.setPID( p, i, d );
 
-        int armPos = this.motor.getCurrentPosition( );       // armPos is in Ticks
+        double armPos = this.motor.getCurrentPosition( ) + ( AR_Arm.ACTUAL_REST_ANGLE * ticksPerDegree );       // armPos is in Ticks
 
         // Original Method
         double pid = this.controller.calculate( armPos, target * ticksPerDegree );  // target is in degrees
         double ff = Math.cos( Math.toRadians( target * ticksPerDegree ) ) * f;  // Here we are passing Ticks to the toRadians function.
-
-      // ToDo: Maybe we should convert to degrees, then after all computations (including radians) convert back to "ticks" before we send to motor. Thinking about it, this is the next test I would do.
-        // Convert to degrees, then perform calculations
-        //double pid = this.controller.calculate( armPos / ticksPerDegree , target );
-        //double ff = Math.cos( Math.toRadians( target ) ) * f;
 
         double power = pid + ff;  //pid is based off of ticks,  ff is based off of ticks
 
         this.motor.setPower( power );  // ToDo: Something to try, maybe multiple "power" by a factor (0.8 for example) to artificially slow the motor down a small bit.
 
         this.bot.telemetry.addData("Power"," (" + this.jointName + ") " + power ); // Degrees
-        this.bot.telemetry.addData("Position", " (" + this.jointName + ") " + armPos / ticksPerDegree ); // Degrees
+        this.bot.telemetry.addData("Pos(Ticks)", " (" + this.jointName + ") " + armPos ); // Degrees
+        this.bot.telemetry.addData("Pos", " (" + this.jointName + ") " + armPos / ticksPerDegree ); // Degrees
         this.bot.telemetry.addData("Target", " (" + this.jointName + ") " + target );
 
         if( target != 0 ) {
-            Log.i("AR_Experimental", this.jointName + ": Loop: " + loopCount + ", Power: " + power + ", Position(Ticks): " + armPos + ", Position(Degrees): " + armPos / ticksPerDegree + ", Target: " + target + ", PID: " + pid + ", ff: " + ff );
+            double armPosDegrees = ( armPos / ticksPerDegree );
+            Log.i("AR_Experimental", this.jointName + "," + loopCount + "," + armPos + "," + armPosDegrees  + "," + target + "," + pid + "," + ff + "," + power );
         }
 
         loopCount = loopCount + 1;

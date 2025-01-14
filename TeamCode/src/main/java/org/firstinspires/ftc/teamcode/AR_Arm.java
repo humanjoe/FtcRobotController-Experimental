@@ -16,17 +16,22 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Config
 public class AR_Arm
 {
+    // Currently, the arm's rest is at approx. 43 degree up pointing straight down. That mean gravity is
+    // working the most against the arm (horizontal) at -47 from the rest. So to make the angle align
+    // with more realistic angles. the rest should be at 43 degree instead of 0.
+    public static int ACTUAL_REST_ANGLE = -40; //degrees
+
     // These variables are used to customize joint angles for the AR_Arm. All of these
     // variables are available to be adjusted, in real-time, using FTC Dashboard.
-    public static int FIRST_JOINT_DEPLOY = -120, SECOND_JOINT_DEPLOY = -180;
-    public static int FIRST_JOINT_GRAB = -65,     SECOND_JOINT_GRAB = -160;
-    public static int FIRST_JOINT_REST = -20,    SECOND_JOINT_REST = 0;
+    public static int FIRST_JOINT_DEPLOY = -160, SECOND_JOINT_DEPLOY = -180;
+    public static int FIRST_JOINT_GRAB = -75,    SECOND_JOINT_GRAB = -160;
+    public static int FIRST_JOINT_REST = -60,      SECOND_JOINT_REST = 0;
 
-    public static double p1 = 0.0007, i1 = 0.05, d1 = 0.0001;
-    public static double f1 = 0.05;
+    public static double P1 = 0.003, I1 = 0.05, D1 = 0.0001;
+    public static double F1 = 0.05;
 
-    public static double p2 = 0.0007, i2 = 0.05, d2 = 0.0001;
-    public static double f2 = 0.05;
+    public static double P2 = 0.0007, I2 = 0.05, D2 = 0.0001;
+    public static double F2 = 0.05;
 
     // Create a "AR_Joint" instance for each joint of the "AR_Arm".
     private AR_Joint jointFirst;
@@ -49,8 +54,8 @@ public class AR_Arm
         this.bot = iBot;
 
         // Declare instances of the two joints.
-        this.jointFirst = new AR_Joint(this.bot, "first_joint", p1, i1, d1, f1);
-        this.jointSecond = new AR_Joint(this.bot, "second_joint", p2, i2, d2, f2);
+        this.jointFirst = new AR_Joint(this.bot, "first_joint", P1, I1, D1, F1);
+//        this.jointSecond = new AR_Joint(this.bot, "second_joint", P2, I2, D2, F2);
 
         // Set FTC Dashboard Telemetry
         bot.telemetry = new MultipleTelemetry( bot.telemetry, FtcDashboard.getInstance( ).getTelemetry( ) );
@@ -64,7 +69,7 @@ public class AR_Arm
         // ToDo: I wonder if we need to come up with code to move the joints at different times. For example, maybe we have to move joint 1 20 degrees before moving joint 2 at all.
         // Arm should be tested before adding that code.
         this.jointFirst.moveJoint(this.targetFirst);
-        this.jointSecond.moveJoint(this.targetSecond);
+//        this.jointSecond.moveJoint(this.targetSecond);
     }
 
     /**
@@ -76,7 +81,7 @@ public class AR_Arm
     public void setArmCustomPos(int firstJoint, int secondJoint )
     {
         this.targetFirst = firstJoint; //degrees
-        this.targetSecond = secondJoint; //degrees
+  //      this.targetSecond = secondJoint; //degrees
     }
 
     /**
@@ -86,7 +91,7 @@ public class AR_Arm
     {
         // Todo: This needs to be carefully tested before we run the code to make sure the motor direction is correct, etc.
         this.targetFirst = FIRST_JOINT_DEPLOY;
-        this.targetSecond = SECOND_JOINT_DEPLOY;
+//        this.targetSecond = SECOND_JOINT_DEPLOY;
     }
 
     /**
@@ -96,7 +101,7 @@ public class AR_Arm
     {
         // Todo: This needs to be carefully tested before we run the code to make sure the motor direction is correct, etc.
         this.targetFirst = FIRST_JOINT_GRAB;
-        this.targetSecond = SECOND_JOINT_GRAB;
+ //       this.targetSecond = SECOND_JOINT_GRAB;
     }
 
     /**
@@ -106,7 +111,7 @@ public class AR_Arm
     {
         // Todo: This needs to be carefully tested before we run the code to make sure the motor direction is correct, etc.
         this.targetFirst = FIRST_JOINT_REST;
-        this.targetSecond = SECOND_JOINT_REST;
+//        this.targetSecond = SECOND_JOINT_REST;
 
         // Todo: Somehow the power should be set to zero after movement because we don't want to waste battery power holding
         // the arm in the lowered position. This will only work if the arm has a rest which it doesn't right now.
