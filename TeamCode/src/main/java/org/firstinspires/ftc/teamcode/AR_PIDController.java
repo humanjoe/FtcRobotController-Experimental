@@ -73,7 +73,14 @@ public class AR_PIDController
     {
         this.controller.setPID( p, i, d );
 
-        double armPos = this.motor.getCurrentPosition( ) + ( AR_Arm.ACTUAL_REST_ANGLE * ticksPerDegree );       // armPos is in Ticks
+        double armPos = 0;
+
+        // Are we working on the first joint or second?
+        if( this.jointName.equals("first_joint")) {
+            armPos = this.motor.getCurrentPosition( ) + ( AR_Arm.FIRST_JOINT_REST_ANGLE * ticksPerDegree );       // armPos is in Ticks
+        } else {
+            armPos = this.motor.getCurrentPosition( );    // armPos is in Ticks
+        }
 
         // Original Method
         double pid = this.controller.calculate( armPos, target * ticksPerDegree );  // target is in degrees
