@@ -26,10 +26,11 @@ public class AR_Joint
      *
      * @param iBot Handle to the LinearOpMode.
      * @param iJointName text based name of joint motor in robot configuration.
-     * @param iP p variable of PID controller.
-     * @param iI i variable of PID controller.
-     * @param iD d variable of PID controller.
-     * @param iF f variable for use with feed forward in PID controller.
+     * @param iP variable of PID controller.
+     * @param iI variable of PID controller.
+     * @param iD variable of PID controller.
+     * @param iF variable for use with feed forward in PID controller.
+     *
      */
     public AR_Joint(LinearOpMode iBot, String iJointName, double iP, double iI, double iD, double iF)
     {
@@ -49,8 +50,8 @@ public class AR_Joint
      *
      * @param target degree angle to move the joint to.
      */
-    public void moveJoint(int target)
+    public void moveJoint(int target, int iLastState)
     {
-        this.newPID.loop(target);
+        this.newPID.loop(target, iLastState);
     }
 }

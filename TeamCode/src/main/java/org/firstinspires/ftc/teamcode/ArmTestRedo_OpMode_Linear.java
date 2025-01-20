@@ -47,7 +47,7 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
 //        light = new AR_Light("status_light", this );
 
         // Place Arm in starting rest position
-        arm.setArmRestPos( );
+        arm.setArmStartPos( );
 
         // Run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -70,7 +70,7 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
                 telemetry.addData("Status","GP1:Circle (setArmRestPos)");
 
                 // Set Arm into Rest position.
-                arm.setArmRestPos( );
+                arm.setArmActivePos( );
 //                light.customLight(AR_Light.GB_CLR_SAGE);
             }
             if (gamepad1.cross) {

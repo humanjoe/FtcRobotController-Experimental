@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  *
  * Creation Date: 11/3/2024
  */
+
 @Config
 public class AR_Arm
 {
@@ -23,15 +24,22 @@ public class AR_Arm
 
     // These variables are used to customize joint angles for the AR_Arm. All of these
     // variables are available to be adjusted, in real-time, using FTC Dashboard.
-    public static int FIRST_JOINT_DEPLOY = -160, SECOND_JOINT_DEPLOY = 180;
-    public static int FIRST_JOINT_GRAB = -70,    SECOND_JOINT_GRAB = 150;
-    public static int FIRST_JOINT_REST = -60,      SECOND_JOINT_REST = 10;
+    public static int FIRST_JOINT_START = -40,      SECOND_JOINT_START = 0;
+    public static int FIRST_JOINT_ACTIVE = -68,      SECOND_JOINT_ACTIVE = 65;
+    public static int FIRST_JOINT_DEPLOY = -165, SECOND_JOINT_DEPLOY = 190;
+    public static int FIRST_JOINT_GRAB = -68,    SECOND_JOINT_GRAB = 140;
+
 
     public static double P1 = 0.003, I1 = 0.05, D1 = 0.0001;
     public static double F1 = 0.05;
 
-    public static double P2 = 0.0007, I2 = 0.05, D2 = 0.0001;
+    public static double P2 = 0.001, I2 = 0.05, D2 = 0.0001;
     public static double F2 = 0.05;
+
+    public static int START = 0;
+    public static int ACTIVE = 1;
+    public static int GRAB = 2;
+    public static int DEPLOY = 3;
 
     // Create a "AR_Joint" instance for each joint of the "AR_Arm".
     private AR_Joint jointFirst;
@@ -42,6 +50,9 @@ public class AR_Arm
     private int targetSecond;
 
     private LinearOpMode bot;
+
+    private int lastState = START;
+    private int currentState = START;
 
     /**
      * Constructor. Gets the arm ready for moving.
@@ -68,8 +79,8 @@ public class AR_Arm
     {
         // ToDo: I wonder if we need to come up with code to move the joints at different times. For example, maybe we have to move joint 1 20 degrees before moving joint 2 at all.
         // Arm should be tested before adding that code.
-        this.jointFirst.moveJoint(this.targetFirst);
-        this.jointSecond.moveJoint(this.targetSecond);
+        this.jointFirst.moveJoint(this.targetFirst, lastState);
+        this.jointSecond.moveJoint(this.targetSecond, lastState);
     }
 
     /**
@@ -92,6 +103,9 @@ public class AR_Arm
         // Todo: This needs to be carefully tested before we run the code to make sure the motor direction is correct, etc.
         this.targetFirst = FIRST_JOINT_DEPLOY;
         this.targetSecond = SECOND_JOINT_DEPLOY;
+
+        lastState = currentState;
+        currentState = DEPLOY;
     }
 
     /**
@@ -102,18 +116,38 @@ public class AR_Arm
         // Todo: This needs to be carefully tested before we run the code to make sure the motor direction is correct, etc.
         this.targetFirst = FIRST_JOINT_GRAB;
         this.targetSecond = SECOND_JOINT_GRAB;
+
+        lastState = currentState;
+        currentState = GRAB;
     }
 
     /**
-     * Return immediately and sets the arm joint angles to the preset folded and resting location.
+     * Return immediately and sets the arm joint angles to the preset ready to travel position.
      */
-    public void setArmRestPos( )
+    public void setArmActivePos( )
     {
         // Todo: This needs to be carefully tested before we run the code to make sure the motor direction is correct, etc.
-        this.targetFirst = FIRST_JOINT_REST;
-        this.targetSecond = SECOND_JOINT_REST;
+        this.targetFirst = FIRST_JOINT_ACTIVE;
+        this.targetSecond = SECOND_JOINT_ACTIVE;
+
+        lastState = currentState;
+        currentState = ACTIVE;
+
 
         // Todo: Somehow the power should be set to zero after movement because we don't want to waste battery power holding
         // the arm in the lowered position. This will only work if the arm has a rest which it doesn't right now.
+    }
+
+    /**
+     * Return immediately and sets the arm joint angles to the start position.
+     */
+    public void setArmStartPos( )
+    {
+        // Todo: This needs to be carefully tested before we run the code to make sure the motor direction is correct, etc.
+        this.targetFirst = FIRST_JOINT_START;
+        this.targetSecond = SECOND_JOINT_START;
+
+        lastState = currentState;
+        currentState = START;
     }
 }
