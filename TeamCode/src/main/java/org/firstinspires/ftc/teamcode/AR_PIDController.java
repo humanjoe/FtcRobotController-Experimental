@@ -90,12 +90,11 @@ public class AR_PIDController
         double power = pid + ff;  //pid is based off of ticks,  ff is based off of ticks
 
         // Determine if there are any special conditions required for power output.
-        if( this.jointName.equals("first_joint") && iLastState == AR_Arm.DEPLOY) {
+        if (this.jointName.equals("first_joint") && (iLastState == AR_Arm.DEPLOY) && ( (armPos / ticksPerDegree) < target - 10 ) ) {
             power = power * 0.1;       // Throttle power back for arm decent.
-            Log.i("AR_Experimental", this.jointName + " Power Level Check States: " + iCurrentState + "(" + iLastState + ")" );
         }
 
-        this.motor.setPower( power );  // ToDo: Something to try, maybe multiple "power" by a factor (0.8 for example) to artificially slow the motor down a small bit.
+        this.motor.setPower( power );
 
         this.bot.telemetry.addData("Power"," (" + this.jointName + ") " + power ); // Degrees
         this.bot.telemetry.addData("Pos(Ticks)", " (" + this.jointName + ") " + armPos ); // Degrees

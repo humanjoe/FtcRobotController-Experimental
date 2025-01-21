@@ -25,9 +25,9 @@ public class AR_Arm
     // These variables are used to customize joint angles for the AR_Arm. All of these
     // variables are available to be adjusted, in real-time, using FTC Dashboard.
     public static int FIRST_JOINT_START = -40,      SECOND_JOINT_START = 0;
-    public static int FIRST_JOINT_ACTIVE = -68,      SECOND_JOINT_ACTIVE = 65;
-    public static int FIRST_JOINT_DEPLOY = -165, SECOND_JOINT_DEPLOY = 190;
-    public static int FIRST_JOINT_GRAB = -68,    SECOND_JOINT_GRAB = 140;
+    public static int FIRST_JOINT_ACTIVE = -70,      SECOND_JOINT_ACTIVE = 65;
+    public static int FIRST_JOINT_DEPLOY = -170, SECOND_JOINT_DEPLOY = 200;
+    public static int FIRST_JOINT_GRAB = -70,    SECOND_JOINT_GRAB = 145;
 
 
     public static double P1 = 0.003, I1 = 0.05, D1 = 0.0001;
@@ -98,27 +98,30 @@ public class AR_Arm
     /**
      * Return immediately and sets the arm joint angles to the preset location for deploying a specimen into the upper hopper.
      */
-    public void setArmDeployPos( )
-    {
+    public void setArmDeployPos( ) {
         // Todo: This needs to be carefully tested before we run the code to make sure the motor direction is correct, etc.
         this.targetFirst = FIRST_JOINT_DEPLOY;
         this.targetSecond = SECOND_JOINT_DEPLOY;
 
-        lastState = currentState;
-        currentState = DEPLOY;
+        if (currentState != AR_Arm.DEPLOY) {
+            lastState = currentState;
+            currentState = AR_Arm.DEPLOY;
+        }
     }
 
     /**
      * Return immediately and ets the arm joint angles to the preset location for picking up a specimen.
      */
     public void setArmGrabPos( )
-    {
+        {
         // Todo: This needs to be carefully tested before we run the code to make sure the motor direction is correct, etc.
         this.targetFirst = FIRST_JOINT_GRAB;
         this.targetSecond = SECOND_JOINT_GRAB;
 
-        lastState = currentState;
-        currentState = GRAB;
+        if( currentState != AR_Arm.GRAB ) {
+            lastState = currentState;
+            currentState = AR_Arm.GRAB;
+        }
     }
 
     /**
@@ -130,8 +133,10 @@ public class AR_Arm
         this.targetFirst = FIRST_JOINT_ACTIVE;
         this.targetSecond = SECOND_JOINT_ACTIVE;
 
-        lastState = currentState;
-        currentState = ACTIVE;
+        if( currentState != AR_Arm.ACTIVE ) {
+            lastState = currentState;
+            currentState = AR_Arm.ACTIVE;
+        }
 
 
         // Todo: Somehow the power should be set to zero after movement because we don't want to waste battery power holding
@@ -147,7 +152,9 @@ public class AR_Arm
         this.targetFirst = FIRST_JOINT_START;
         this.targetSecond = SECOND_JOINT_START;
 
-        lastState = currentState;
-        currentState = START;
+        if( currentState != AR_Arm.START ) {
+            lastState = currentState;
+            currentState = AR_Arm.START;
+        }
     }
 }
