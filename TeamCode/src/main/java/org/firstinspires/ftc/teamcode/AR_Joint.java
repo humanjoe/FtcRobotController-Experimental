@@ -50,8 +50,8 @@ public class AR_Joint
      *
      * @param target degree angle to move the joint to.
      */
-    public void moveJoint(int target, int iLastState)
+    public void moveJoint(int target, int iCurrentState, int iLastState)
     {
-        this.newPID.loop(target, iLastState);
+        this.newPID.loop(target, iCurrentState, iLastState);
     }
 }

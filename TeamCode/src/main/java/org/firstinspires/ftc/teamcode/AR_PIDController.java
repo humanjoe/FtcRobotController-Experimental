@@ -68,8 +68,9 @@ public class AR_PIDController
      * This function takes a target value and moves the joint to that position.
      *
      * @param target Value that the joint should move to.
+     * @param iLastState The last state of the Arm.
      */
-    public void loop(int target, int iLastState ) // Input in degrees
+    public void loop(int target, int iCurrentState, int iLastState ) // Input in degrees
     {
         this.controller.setPID( p, i, d );
 
@@ -88,9 +89,10 @@ public class AR_PIDController
 
         double power = pid + ff;  //pid is based off of ticks,  ff is based off of ticks
 
-        if( this.jointName.equals("first_joint") && (iLastState == AR_Arm.DEPLOY) ) {
-            power = power * 0.1;       // throttle power
-            Log.i("AR_Experimental", this.jointName + " IN ------->>>> ," + iLastState );
+        // Determine if there are any special conditions required for power output.
+        if( this.jointName.equals("first_joint") && iLastState == AR_Arm.DEPLOY) {
+            power = power * 0.1;       // Throttle power back for arm decent.
+            Log.i("AR_Experimental", this.jointName + " Power Level Check States: " + iCurrentState + "(" + iLastState + ")" );
         }
 
         this.motor.setPower( power );  // ToDo: Something to try, maybe multiple "power" by a factor (0.8 for example) to artificially slow the motor down a small bit.
@@ -99,7 +101,7 @@ public class AR_PIDController
         this.bot.telemetry.addData("Pos(Ticks)", " (" + this.jointName + ") " + armPos ); // Degrees
         this.bot.telemetry.addData("Pos", " (" + this.jointName + ") " + armPos / ticksPerDegree ); // Degrees
         this.bot.telemetry.addData("Target", " (" + this.jointName + ") " + target );
-        this.bot.telemetry.addData("State", " " + iLastState );
+        this.bot.telemetry.addData("States", + iCurrentState + "(" + iLastState + ")" );
 
 /*        if( target != 0 ) {
             double armPosDegrees = ( armPos / ticksPerDegree );

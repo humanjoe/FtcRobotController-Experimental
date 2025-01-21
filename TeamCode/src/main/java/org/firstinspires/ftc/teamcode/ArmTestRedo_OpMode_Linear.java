@@ -47,7 +47,7 @@ public class ArmTestRedo_OpMode_Linear extends LinearOpMode
 //        light = new AR_Light("status_light", this );
 
         // Place Arm in starting rest position
-        arm.setArmStartPos( );
+        //        arm.setArmStartPos( );
 
         // Run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {

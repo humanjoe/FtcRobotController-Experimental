@@ -79,8 +79,8 @@ public class AR_Arm
     {
         // ToDo: I wonder if we need to come up with code to move the joints at different times. For example, maybe we have to move joint 1 20 degrees before moving joint 2 at all.
         // Arm should be tested before adding that code.
-        this.jointFirst.moveJoint(this.targetFirst, lastState);
-        this.jointSecond.moveJoint(this.targetSecond, lastState);
+        this.jointFirst.moveJoint(this.targetFirst, currentState, lastState);
+        this.jointSecond.moveJoint(this.targetSecond, currentState, lastState);
     }
 
     /**
