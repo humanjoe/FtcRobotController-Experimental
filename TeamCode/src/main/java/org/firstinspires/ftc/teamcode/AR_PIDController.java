@@ -90,7 +90,10 @@ public class AR_PIDController
         double power = pid + ff;  //pid is based off of ticks,  ff is based off of ticks
 
         // Determine if there are any special conditions required for power output.
-        if (this.jointName.equals("first_joint") && (iLastState == AR_Arm.DEPLOY) && ( (armPos / ticksPerDegree) < target - 10 ) ) {
+        if ( (this.jointName.equals("first_joint")) &&  // First Joint Only.
+             (iLastState == AR_Arm.DEPLOY) &&   // Has to be leaving the DEPLOY state.
+             ((armPos / ticksPerDegree) < target - 10)) // Can only be in the initial decent. We need to turn this off for maintaining position.
+        {
             power = power * 0.1;       // Throttle power back for arm decent.
         }
 

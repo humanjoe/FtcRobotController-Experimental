@@ -29,7 +29,6 @@ public class AR_Arm
     public static int FIRST_JOINT_DEPLOY = -170, SECOND_JOINT_DEPLOY = 200;
     public static int FIRST_JOINT_GRAB = -70,    SECOND_JOINT_GRAB = 145;
 
-
     public static double P1 = 0.003, I1 = 0.05, D1 = 0.0001;
     public static double F1 = 0.05;
 
