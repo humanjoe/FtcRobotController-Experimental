@@ -13,6 +13,8 @@ A class developed to contain the need information for each joint used in an arm.
 ### AR_Light
 A class developed to use and control the GoBilda PWM Light.
 
+### JavaDocs for This Repo
+https://humanjoe.github.io/FtcRobotController-Experimental/
 
 # STANDARD FTC DOCUMENTATION
 
