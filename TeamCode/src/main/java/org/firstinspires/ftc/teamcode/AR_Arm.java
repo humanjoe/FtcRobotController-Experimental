@@ -25,7 +25,9 @@ public class AR_Arm
 
     // These variables are used to customize joint angles for the AR_Arm. All of these
     // variables are available to be adjusted, in real-time, using FTC Dashboard.
-    public static int FIRST_JOINT_START = -40,      SECOND_JOINT_START = 0;
+    /** Angle of first Joint Starting Position */
+    public static int FIRST_JOINT_START = -40;
+    public static int SECOND_JOINT_START = 0;
     public static int FIRST_JOINT_ACTIVE = -70,      SECOND_JOINT_ACTIVE = 65;
     public static int FIRST_JOINT_DEPLOY = -170, SECOND_JOINT_DEPLOY = 200;
     public static int FIRST_JOINT_GRAB = -70,    SECOND_JOINT_GRAB = 145;
