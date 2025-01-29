@@ -17,9 +17,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Config
 public class AR_Arm
 {
-    // Currently, the arm's rest is at approx. 43 degree up pointing straight down. That mean gravity is
-    // working the most against the arm (horizontal) at -47 from the rest. So to make the angle align
-    // with more realistic angles. the rest should be at 43 degree instead of 0.
+    /** Currently, the arm's rest is at approx. 43 degree up pointing straight down. That mean gravity is
+     * working the most against the arm (horizontal) at -47 from the rest. So to make the angle align
+     * with more realistic angles. the rest should be at 43 degree instead of 0.
+     */
     public static int FIRST_JOINT_REST_ANGLE = -40; //degrees
 
     // These variables are used to customize joint angles for the AR_Arm. All of these
